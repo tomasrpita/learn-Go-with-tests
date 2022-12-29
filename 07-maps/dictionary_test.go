@@ -5,7 +5,7 @@ import "testing"
 func TestSearch(t *testing.T) {
 	dict := Dictionary{"test": "this is just a test"}
 
-	t.Run("Know word", func(t *testing.T) {
+	t.Run("known word", func(t *testing.T) {
 
 		got, _ := dict.Search("test")
 		want := "this is just a test"
@@ -14,7 +14,7 @@ func TestSearch(t *testing.T) {
 
 	})
 
-	t.Run("Unknow word", func(t *testing.T) {
+	t.Run("unknown word", func(t *testing.T) {
 		_, got := dict.Search("unknow")
 
 		assertError(t, got, ErrNotFound)
@@ -42,6 +42,35 @@ func TestAdd(t *testing.T) {
 
 		assertError(t, err, ErrWordExists)
 		assertDefinition(t, dict, word, definition)
+	})
+
+}
+
+func TestUpdate(t *testing.T) {
+
+	t.Run("Existing word", func(t *testing.T) {
+		word := "test"
+		definition := "this is just a test"
+		dict := Dictionary{word: definition}
+		newDefinition := "new definition"
+
+		err := dict.Update(word, newDefinition)
+
+		assertError(t, err, nil)
+		assertDefinition(t, dict, word, newDefinition)
+
+	})
+
+	t.Run("new Word", func(t *testing.T) {
+		word := "test"
+		definition := "this is just a test"
+
+		dict := Dictionary{}
+
+		err := dict.Update(word, definition)
+
+		assertError(t, err, ErrWordDoesFound)
+
 	})
 
 }
