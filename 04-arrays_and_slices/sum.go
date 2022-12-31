@@ -1,5 +1,6 @@
 package arrays
 
+// Sum calculates the total from a slice of numbers.
 func Sum(numbers []int) int {
 	total := 0
 	for _, i := range numbers {
@@ -8,6 +9,7 @@ func Sum(numbers []int) int {
 	return total
 }
 
+// SumAll calculates the total from n slices of numbers.
 func SumAll(numbersToSum ...[]int) []int {
 	var sums []int
 	for _, numbers := range numbersToSum {
@@ -16,6 +18,7 @@ func SumAll(numbersToSum ...[]int) []int {
 	return sums
 }
 
+// SumAllTails calculates the sums of all but first number given a colletion of slices.
 func SumAllTails(numbersToSum ...[]int) []int {
 	var sums []int
 	for _, numbers := range numbersToSum {
