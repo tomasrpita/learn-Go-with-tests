@@ -21,6 +21,7 @@ func Countdown(out io.Writer, sleeper Sleeper) {
 
 	}
 	fmt.Fprintf(out, finalWord)
+
 }
 
 type DefaultSleeper struct{}
