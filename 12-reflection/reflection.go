@@ -1,5 +1,4 @@
 package reflection
-<<<<<<< HEAD
 
 import "reflect"
 
@@ -16,10 +15,9 @@ func walk(x interface{}, fn func(input string)) {
 		numberOfValues = val.NumField()
 		getField = val.Field
 
-	case reflect.Slice:
+	case reflect.Slice, reflect.Array:
 		numberOfValues = val.Len()
 		getField = val.Index
-
 	}
 
 	for i := 0; i < numberOfValues; i++ {
@@ -36,5 +34,3 @@ func getValue(x interface{}) reflect.Value {
 	}
 	return val
 }
-=======
->>>>>>> parent of 4622f45 (Does the walk fn, to pointers)
