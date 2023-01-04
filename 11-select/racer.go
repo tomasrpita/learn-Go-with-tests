@@ -6,22 +6,6 @@ import (
 	"time"
 )
 
-// func Racer(a, b string) (winner string) {
-// 	aDuration := measureResponseTime(a)
-// 	bDuration := measureResponseTime(b)
-
-// 	if aDuration > bDuration {
-// 		return b
-// 	}
-// 	return a
-// }
-
-// func measureResponseTime(url string) time.Duration {
-// 	startA := time.Now()
-// 	http.Get(url)
-// 	return time.Since(startA)
-// }
-
 var tenSecondTimeout = 10 * time.Second
 
 func Racer(a, b string) (winner string, err error) {
