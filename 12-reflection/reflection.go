@@ -1,4 +1,5 @@
 package reflection
+<<<<<<< HEAD
 
 import "reflect"
 
@@ -35,3 +36,5 @@ func getValue(x interface{}) reflect.Value {
 	}
 	return val
 }
+=======
+>>>>>>> parent of 4622f45 (Does the walk fn, to pointers)
