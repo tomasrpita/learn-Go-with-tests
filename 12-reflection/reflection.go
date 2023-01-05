@@ -2,9 +2,11 @@ package reflection
 
 import "reflect"
 
+// Walk takes a struct x and calls fn for all strings fields found inside.
 func walk(x interface{}, fn func(input string)) {
 	val := getValue(x)
 
+	// walkValue is a closure that calls walk with the value of the field.
 	walkVaue := func(value reflect.Value) {
 		walk(value.Interface(), fn)
 	}
@@ -38,6 +40,7 @@ func walk(x interface{}, fn func(input string)) {
 
 }
 
+// getValue returns the value of x. If x is a pointer, it returns the value.
 func getValue(x interface{}) reflect.Value {
 	val := reflect.ValueOf(x)
 
