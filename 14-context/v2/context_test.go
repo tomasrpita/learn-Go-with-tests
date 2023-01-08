@@ -1,4 +1,4 @@
-package server
+package serverV2
 
 import (
 	"context"
@@ -36,7 +36,6 @@ func (s *SpyStore) Fetch() string {
 func (s *SpyStore) Cancel() {
 	s.cancelled = true
 }
-
 func TestServer(t *testing.T) {
 	data := "Hello, world"
 

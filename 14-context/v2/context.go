@@ -1,4 +1,4 @@
-package server
+package serverV2
 
 import (
 	"fmt"
