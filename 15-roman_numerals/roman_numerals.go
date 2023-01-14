@@ -25,10 +25,12 @@ var allRomanNumerals = RomanNumerals{
 	{1, "I"},
 }
 
-func (rn RomanNumerals) ValueOf(potentialNumber string) int {
+func (rn RomanNumerals) ValueOf(symbols ...byte) int {
+
+	symbol := string(symbols)
 
 	for i := 0; i < len(rn); i++ {
-		if potentialNumber == rn[i].Symbol {
+		if symbol == rn[i].Symbol {
 			return rn[i].Value
 		}
 	}
@@ -57,24 +59,18 @@ func ConvertToArabic(roman string) int {
 		symbol := roman[i] // it is a byte
 
 		// look ahead to next symbol if we can and, the current symbol is base 10 (Only valid substrators)
-		// if i+1 < len(roman) && symbol == 'I' {
 		if couldBeSubstractive(i, roman, symbol) {
 			nextSymbol := roman[i+1]
 
-			// buld the two character string
-			potentialNumber := string([]byte{symbol, nextSymbol})
-
 			// get the value of the two characater string
-			value := allRomanNumerals.ValueOf(potentialNumber)
-
-			if value != 0 {
+			if value := allRomanNumerals.ValueOf(symbol, nextSymbol); value != 0 {
 				total += value
 				i++ // move past this character too for next loop
 			} else {
-				total++
+				total += allRomanNumerals.ValueOf(symbol)
 			}
 		} else {
-			total++
+			total += allRomanNumerals.ValueOf(symbol)
 		}
 	}
 	return total
@@ -82,5 +78,7 @@ func ConvertToArabic(roman string) int {
 }
 
 func couldBeSubstractive(index int, roman string, currentSymbol byte) bool {
-	return index+1 < len(roman) && currentSymbol == 'I'
+	isSubstractive := currentSymbol == 'I' || currentSymbol == 'X' || currentSymbol == 'C'
+
+	return index+1 < len(roman) && isSubstractive
 }
