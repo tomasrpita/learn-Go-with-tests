@@ -57,7 +57,8 @@ func ConvertToArabic(roman string) int {
 		symbol := roman[i] // it is a byte
 
 		// look ahead to next symbol if we can and, the current symbol is base 10 (Only valid substrators)
-		if i+1 < len(roman) && symbol == 'I' {
+		// if i+1 < len(roman) && symbol == 'I' {
+		if couldBeSubstractive(i, roman, symbol) {
 			nextSymbol := roman[i+1]
 
 			// buld the two character string
@@ -78,4 +79,8 @@ func ConvertToArabic(roman string) int {
 	}
 	return total
 
+}
+
+func couldBeSubstractive(index int, roman string, currentSymbol byte) bool {
+	return index+1 < len(roman) && currentSymbol == 'I'
 }
