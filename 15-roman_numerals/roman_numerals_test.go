@@ -2,7 +2,9 @@ package numerals
 
 import (
 	"fmt"
+	"log"
 	"testing"
+	"testing/quick"
 )
 
 var (
@@ -62,5 +64,25 @@ func TestConvertingToArabic(t *testing.T) {
 				t.Errorf("got %d, want %d", got, test.Arabic)
 			}
 		})
+	}
+}
+
+func TestPropertiesOfConversion(t *testing.T) {
+	assertion := func(arabic uint16) bool {
+		if arabic > 3999 {
+			log.Println(arabic)
+			return true
+		}
+		roman := ConvertToRoman(int(arabic))
+		fromRoman := ConvertToArabic(roman)
+		return fromRoman == int(arabic)
+
+	}
+
+	// Max number if tries
+	qConfig := &quick.Config{MaxCount: 1000}
+
+	if err := quick.Check(assertion, qConfig); err != nil {
+		t.Error("failled checks", err)
 	}
 }
