@@ -79,7 +79,7 @@ func TestPropertiesOfConversion(t *testing.T) {
 
 	}
 
-	// Max number if tries
+	// Max number o f tries
 	qConfig := &quick.Config{MaxCount: 1000}
 
 	if err := quick.Check(assertion, qConfig); err != nil {
