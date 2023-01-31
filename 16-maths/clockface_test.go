@@ -120,7 +120,7 @@ func TestHourHandPoint(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run(testName(c.time), func(t *testing.T) {
-			got := HourHandPoint(c.time)
+			got := hourHandPoint(c.time)
 			if !roughlyEqualPoint(got, c.point) {
 				t.Fatalf("Wanted %v Point, but got %v", c.point, got)
 			}

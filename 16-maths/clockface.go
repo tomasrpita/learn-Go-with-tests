@@ -5,6 +5,15 @@ import (
 	"time"
 )
 
+const (
+	secondsInHalfClock = 30
+	secondsInClock     = 2 * secondsInHalfClock
+	minutesInHalfClock = 30
+	minutesInClock     = 2 * minutesInHalfClock
+	hoursInHalfClock   = 6
+	hoursInClock       = 2 * hoursInHalfClock
+)
+
 // A Point represents a two dimensional Cartesian coordinate.
 type Point struct {
 	X float64
@@ -12,16 +21,16 @@ type Point struct {
 }
 
 func secondsInRadians(t time.Time) float64 {
-	return (math.Pi / (30 / (float64(t.Second()))))
+	return (math.Pi / (secondsInHalfClock / (float64(t.Second()))))
 }
 
 func minutesInRadians(t time.Time) float64 {
-	return (secondsInRadians(t) / 60) +
-		(math.Pi / (30 / float64(t.Minute())))
+	return (secondsInRadians(t) / minutesInClock) +
+		(math.Pi / (minutesInHalfClock / float64(t.Minute())))
 }
 
 func hoursInRadians(t time.Time) float64 {
-	return (minutesInRadians(t) / 12) + (math.Pi / (6 / float64(t.Hour()%12)))
+	return (minutesInRadians(t) / hoursInClock) + (math.Pi / (hoursInHalfClock / float64(t.Hour()%hoursInClock)))
 }
 
 func secondHandPoint(t time.Time) Point {
@@ -32,7 +41,7 @@ func minuteHandPoint(t time.Time) Point {
 	return angleToPoint(minutesInRadians(t))
 }
 
-func HourHandPoint(t time.Time) Point {
+func hourHandPoint(t time.Time) Point {
 	return angleToPoint(hoursInRadians(t))
 }
 
