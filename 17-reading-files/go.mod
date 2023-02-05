@@ -1,3 +1,5 @@
-module 17-reading-files/blogposts
+module learn-Go-with-tests/17-reading-files
 
-go 1.19
+// module blogposts
+
+go 1.20
