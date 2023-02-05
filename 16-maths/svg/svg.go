@@ -45,10 +45,10 @@ func hourHand(w io.Writer, t time.Time) {
 
 }
 
-func makeHand(p Point, length float64) Point {
-	p = Point{p.X * length, p.Y * length}                // scale
-	p = Point{p.X, -p.Y}                                 // flip
-	return Point{p.X + clockCentreX, p.Y + clockCentreY} // traslate
+func makeHand(p clockface.Point, length float64) clockface.Point {
+	p = clockface.Point{X: p.X * length, Y: p.Y * length}                // scale
+	p = clockface.Point{X: p.X, Y: -p.Y}                                 // flip
+	return clockface.Point{X: p.X + clockCentreX, Y: p.Y + clockCentreY} // traslate
 }
 
 const svgStart = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>

@@ -1,7 +1,7 @@
 package blogposts
 
 import (
-	"fs"
+	"io/fs"
 	"testing/fstest"
 )
 
