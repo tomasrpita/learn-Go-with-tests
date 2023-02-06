@@ -2,19 +2,26 @@ package blogposts_test
 
 import (
 	blogposts "learn-Go-with-tests/17-reading-files"
+	"reflect"
 	"testing"
 	"testing/fstest"
 )
 
 func TestNewBlogPosts(t *testing.T) {
 	fs := fstest.MapFS{
-		"hello-world.md":  {Data: []byte("hi")},
-		"hello-world2.md": {Data: []byte("hola")},
+		"hello-world.md":  {Data: []byte("Titlle:Post 1")},
+		"hello-world2.md": {Data: []byte("Titlle:Post 2")},
 	}
 
-	posts := blogposts.NewPotsFromFs(fs)
+	posts, err := blogposts.NewPotsFromFs(fs)
 
-	if len(posts) != len(fs) {
-		t.Errorf("got %d want %d posts", len(posts), len(fs))
+	if err != nil {
+		t.Fatal(err)
+	}
+	got := posts[0]
+	want := blogposts.Post{Title: "Post 1"}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %+v want %+v posts", got, want)
 	}
 }
