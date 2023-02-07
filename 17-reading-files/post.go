@@ -1,18 +1,33 @@
 package blogposts
 
-import "io"
+import (
+	"bufio"
+	"io"
+)
 
 type Post struct {
-	Title string
+	Title       string
+	Description string
 }
 
+const (
+	titleSeparator       = "Title: "
+	descriptionSeparator = "Description: "
+)
+
 func newPost(postFile io.Reader) (Post, error) {
-	postData, err := io.ReadAll(postFile)
-	if err != nil {
-		return Post{}, err
+	scanner := bufio.NewScanner(postFile)
+
+	readLine := func() string {
+		scanner.Scan()
+		return scanner.Text()
 	}
 
-	post := Post{Title: string(postData)[7:]}
+	titleLine := readLine()
+
+	descriptionLine := readLine()
+
+	post := Post{Title: titleLine[len(titleSeparator):], Description: descriptionLine[len(descriptionSeparator):]}
 
 	return post, nil
 }
