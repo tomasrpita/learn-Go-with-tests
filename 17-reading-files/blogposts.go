@@ -4,7 +4,7 @@ import (
 	"io/fs"
 )
 
-func NewPotsFromFs(fileSystem fs.FS) ([]Post, error) {
+func NewPostsFromFs(fileSystem fs.FS) ([]Post, error) {
 	dir, err := fs.ReadDir(fileSystem, ".")
 	if err != nil {
 		return nil, err
