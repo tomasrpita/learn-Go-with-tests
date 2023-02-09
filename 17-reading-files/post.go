@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// Post represents a post on a blog
 type Post struct {
 	Title       string
 	Description string
@@ -21,6 +22,7 @@ const (
 	tagsSeparator        = "Tags: "
 )
 
+// NewPost creates a new post from a file
 func newPost(postFile io.Reader) (Post, error) {
 	scanner := bufio.NewScanner(postFile)
 
@@ -38,6 +40,7 @@ func newPost(postFile io.Reader) (Post, error) {
 
 }
 
+// readBody reads the body of the post
 func readBody(scanner *bufio.Scanner) string {
 	scanner.Scan() // ignore a line
 	buf := bytes.Buffer{}
