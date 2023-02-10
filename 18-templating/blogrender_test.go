@@ -2,6 +2,7 @@ package blogrender_test
 
 import (
 	"bytes"
+	"github.com/approvals/go-approval-tests"
 	blogrender "learn-Go-with-tests/18-templating"
 	"testing"
 )
@@ -18,18 +19,11 @@ func TestRender(t *testing.T) {
 
 	t.Run("it converts a single post into HTML", func(t *testing.T) {
 		buf := bytes.Buffer{}
-		err := blogrender.Render(&buf, aPost)
 
-		if err != nil {
+		if err := blogrender.Render(&buf, aPost); err != nil {
 			t.Fatal(err)
 		}
 
-		got := buf.String()
-		want := `<h1>hello world</h1>
-<p>This is a description</p>
-Tags: <ul><li>go</li><li>tdd</li></ul>`
-		if got != want {
-			t.Errorf("got '%s' want  '%s'", got, want)
-		}
+		approvals.VerifyString(t, buf.String())
 	})
 }
