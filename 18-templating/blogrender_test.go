@@ -2,9 +2,10 @@ package blogrender_test
 
 import (
 	"bytes"
-	"github.com/approvals/go-approval-tests"
 	blogrender "learn-Go-with-tests/18-templating"
 	"testing"
+
+	approvals "github.com/approvals/go-approval-tests"
 )
 
 func TestRender(t *testing.T) {
