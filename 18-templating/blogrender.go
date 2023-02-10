@@ -1,8 +1,14 @@
 package blogrender
 
 import (
-	"fmt"
+	"embed"
+	"html/template"
 	"io"
+)
+
+var (
+	//go:embed "templates/*"
+	postTemplates embed.FS
 )
 
 type Post struct {
@@ -11,22 +17,14 @@ type Post struct {
 }
 
 func Render(w io.Writer, p Post) error {
-	_, err := fmt.Fprintf(w, "<h1>%s</h1>\n<p>%s</p>\nTags: <ul>", p.Title, p.Description)
+	templ, err := template.ParseFS(postTemplates, "templates/*.gohtml")
 	if err != nil {
 		return err
 	}
 
-	for _, tag := range p.Tags {
-		_, err := fmt.Fprintf(w, "<li>%s</li>", tag)
-		if err != nil {
-			return err
-		}
-	}
-
-	_, err = fmt.Fprint(w, "</ul>")
-	if err != nil {
+	if err := templ.Execute(w, p); err != nil {
 		return err
 	}
 
-	return err
+	return nil
 }
