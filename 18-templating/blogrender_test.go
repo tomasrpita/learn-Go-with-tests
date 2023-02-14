@@ -31,8 +31,27 @@ func TestRender(t *testing.T) {
 		if err := postRederer.Render(&buf, aPost); err != nil {
 			t.Fatal(err)
 		}
-
 		approvals.VerifyString(t, buf.String())
+	})
+
+	t.Run("it renders an index of posts", func(t *testing.T) {
+		buf := bytes.Buffer{}
+		posts := []blogrender.Post{
+			{Title: "Hello World"},
+			{Title: "Hello World 2"},
+		}
+
+		if err := postRederer.RenderIndex(&buf, posts); err != nil {
+			t.Fatal(err)
+		}
+
+		got := buf.String()
+		want := `<ol><li><a href="/post/hello-world">Hello World</a></li><li><a href="/post/hello-world-2">Hello World 2</a></li></ol>`
+
+		if got != want {
+			t.Errorf("got %q want %q", got, want)
+		}
+
 	})
 }
 
