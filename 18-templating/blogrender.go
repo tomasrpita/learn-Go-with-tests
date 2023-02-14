@@ -39,7 +39,7 @@ func (r *PostRenderer) Render(w io.Writer, p Post) error {
 }
 
 func (r *PostRenderer) RenderIndex(w io.Writer, posts []Post) error {
-	indexTemplate := `<ol>{{range .}}<li><a href="/post/{{sanitiseTitle.Title}}">{{.Title}}</a></li>{{end}}</ol>`
+	indexTemplate := `<ol>{{range .}}<li><a href="/post/{{sanitiseTitle .Title}}">{{.Title}}</a></li>{{end}}</ol>`
 
 	templ, err := template.New("index").Funcs(template.FuncMap{
 		"sanitiseTitle": func(title string) string {
