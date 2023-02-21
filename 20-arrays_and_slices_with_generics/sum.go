@@ -1,4 +1,4 @@
-package arrays
+package arrays_with_generics
 
 // Sum calculates the total from a slice of numbers.
 func Sum(numbers []int) int {

@@ -1,4 +1,4 @@
-package arrays
+package arrays_with_generics
 
 import (
 	"reflect"
