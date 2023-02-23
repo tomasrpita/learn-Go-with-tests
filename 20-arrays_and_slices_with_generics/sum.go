@@ -2,34 +2,59 @@ package arrays_with_generics
 
 // Sum calculates the total from a slice of numbers.
 func Sum(numbers []int) int {
-	total := 0
-	for _, i := range numbers {
-		total += i
-	}
-	return total
+	// total := 0
+	// for _, i := range numbers {
+	// 	total += i
+	// }
+	// return total
+	add := func(acc, x int) int { return acc + x }
+	return Reduce(numbers, add, 0)
 }
 
 // SumAll calculates the total from n slices of numbers.
+// func SumAll(numbersToSum ...[]int) []int {
 func SumAll(numbersToSum ...[]int) []int {
 	var sums []int
 	for _, numbers := range numbersToSum {
 		sums = append(sums, Sum(numbers))
 	}
 	return sums
+	// sunAll := func(acc, x []int) []int {
+	// 	return append(acc, Sum(...numbers))
+	// }
 }
 
 // SumAllTails calculates the sums of all but first number given a colletion of slices.
-func SumAllTails(numbersToSum ...[]int) []int {
-	var sums []int
-	for _, numbers := range numbersToSum {
-		if len(numbers) == 0 {
-			sums = append(sums, 0)
-		} else {
+func SumAllTails(numbers ...[]int) []int {
+	// var sums []int
+	// for _, numbers := range numbers {
+	// 	if len(numbers) == 0 {
+	// 		sums = append(sums, 0)
+	// 	} else {
 
-			tail := numbers[1:]
-			sums = append(sums, Sum(tail))
+	// 		tail := numbers[1:]
+	// 		sums = append(sums, Sum(tail))
+	// 	}
+	// }
+	// return sums
+
+	sumTail := func(acc, x []int) []int {
+		if len(x) == 0 {
+			return append(acc, 0)
+		} else {
+			tail := x[1:]
+			return append(acc, Sum(tail))
+
 		}
 	}
-	return sums
+	return Reduce(numbers, sumTail, []int{})
 
+}
+
+func Reduce[A any](colletion []A, acumulator func(A, A) A, initialValue A) A {
+	var result = initialValue
+	for _, x := range colletion {
+		result = acumulator(result, x)
+	}
+	return result
 }
