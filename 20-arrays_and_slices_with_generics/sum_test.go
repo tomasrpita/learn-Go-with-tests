@@ -2,6 +2,7 @@ package arrays_with_generics
 
 import (
 	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -71,30 +72,7 @@ func TestReduce(t *testing.T) {
 
 }
 
-func AssertEqual[T comparable](t *testing.T, got, want T) {
-	t.Helper()
-	if got != want {
-		t.Errorf("got %+v, want %+v", got, want)
-	}
-}
-
 func TestBadBank(t *testing.T) {
-	// transactions := []Transaction{
-	// 	{
-	// 		From: "Tom",
-	// 		To:   "Nela",
-	// 		Sum:  100,
-	// 	},
-	// 	{
-	// 		From: "Charlie",
-	// 		To:   "Tom",
-	// 		Sum:  25,
-	// 	},
-	// }
-
-	// AssertEqual(t, BalanceFor(transactions, "Nela"), 100)
-	// AssertEqual(t, BalanceFor(transactions, "Tom"), -75)
-	// AssertEqual(t, BalanceFor(transactions, "Charlie"), -25)
 
 	var (
 		nela    = Account{Name: "Nela", Balance: 100}
@@ -114,4 +92,52 @@ func TestBadBank(t *testing.T) {
 	AssertEqual(t, newBalanceFor(nela), 200)
 	AssertEqual(t, newBalanceFor(tom), 0)
 	AssertEqual(t, newBalanceFor(charlie), 175)
+}
+
+func TestFind(t *testing.T) {
+	t.Run("Find first even number", func(t *testing.T) {
+		numbers := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+		// numbers := []int{3, 5, 7, 9}
+
+		firstEvenNumber, found := Find(numbers, func(x int) bool {
+			return x%2 == 0
+		})
+
+		AssertTrue(t, found)
+		AssertEqual(t, firstEvenNumber, 2)
+
+	})
+
+	type Person struct {
+		Name string
+	}
+
+	t.Run("Find the best programmer", func(t *testing.T) {
+		people := []Person{
+			Person{Name: "Kent Beck"},
+			Person{Name: "Martin Fowler"},
+			Person{Name: "Chris James"},
+		}
+
+		king, found := Find(people, func(p Person) bool {
+			return strings.Contains(p.Name, "Chris")
+		})
+
+		AssertTrue(t, found)
+		AssertEqual(t, king, Person{Name: "Chris James"})
+	})
+}
+
+func AssertEqual[T comparable](t *testing.T, got, want T) {
+	t.Helper()
+	if got != want {
+		t.Errorf("got %+v, want %+v", got, want)
+	}
+}
+
+func AssertTrue(t *testing.T, got bool) {
+	t.Helper()
+	if !got {
+		t.Errorf("got %v, want true", got)
+	}
 }
