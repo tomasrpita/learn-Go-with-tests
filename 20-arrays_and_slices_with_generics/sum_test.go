@@ -79,20 +79,39 @@ func AssertEqual[T comparable](t *testing.T, got, want T) {
 }
 
 func TestBadBank(t *testing.T) {
-	transactions := []Transaction{
-		{
-			From: "Tom",
-			To:   "Nela",
-			Sum:  100,
-		},
-		{
-			From: "Charlie",
-			To:   "Tom",
-			Sum:  25,
-		},
+	// transactions := []Transaction{
+	// 	{
+	// 		From: "Tom",
+	// 		To:   "Nela",
+	// 		Sum:  100,
+	// 	},
+	// 	{
+	// 		From: "Charlie",
+	// 		To:   "Tom",
+	// 		Sum:  25,
+	// 	},
+	// }
+
+	// AssertEqual(t, BalanceFor(transactions, "Nela"), 100)
+	// AssertEqual(t, BalanceFor(transactions, "Tom"), -75)
+	// AssertEqual(t, BalanceFor(transactions, "Charlie"), -25)
+
+	var (
+		nela    = Account{Name: "Nela", Balance: 100}
+		tom     = Account{Name: "Tom", Balance: 75}
+		charlie = Account{Name: "Charlie", Balance: 200}
+
+		transactions = []Transaction{
+			NewTransaction(tom, nela, 100),
+			NewTransaction(charlie, tom, 25),
+		}
+	)
+
+	newBalanceFor := func(account Account) float64 {
+		return NewBalanceFor(account, transactions).Balance
 	}
 
-	AssertEqual(t, BalanceFor(transactions, "Nela"), 100)
-	AssertEqual(t, BalanceFor(transactions, "Tom"), -75)
-	AssertEqual(t, BalanceFor(transactions, "Charlie"), -25)
+	AssertEqual(t, newBalanceFor(nela), 200)
+	AssertEqual(t, newBalanceFor(tom), 0)
+	AssertEqual(t, newBalanceFor(charlie), 175)
 }
